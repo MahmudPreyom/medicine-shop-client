@@ -18,6 +18,7 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -74,6 +75,40 @@ export default function Navbar() {
               <User className="w-4 h-4" /> Login
             </Button>
           </Link>
+
+          <div className="relative">
+            <button
+              onClick={() => setProfileMenuOpen((prev) => !prev)}
+              className="p-2 rounded-full hover:bg-gray-100 transition"
+            >
+              <User className="w-5 h-5 text-muted-foreground" />
+            </button>
+            {profileMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-md z-50">
+                <Link
+                  href="/cart"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={() => setProfileMenuOpen(false)}
+                >
+                  Cart
+                </Link>
+                <Link
+                  href="/orders"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={() => setProfileMenuOpen(false)}
+                >
+                  Order History
+                </Link>
+                <Link
+                  href="/profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={() => setProfileMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
