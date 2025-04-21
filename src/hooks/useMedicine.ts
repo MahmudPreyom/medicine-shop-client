@@ -10,7 +10,7 @@ const allMedicines = Array.from({ length: 50 }).map((_, i) => ({
   image: '/assets/medicines/paracetamol.png',
 }));
 
-export default function useMedicines(filters: { category: string; sort: string }) {
+const useMedicines = (filters: { category: string; sort: string }) => {
   const [medicines, setMedicines] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -36,3 +36,5 @@ export default function useMedicines(filters: { category: string; sort: string }
     loadMore: () => setPage((p) => p + 1),
   };
 }
+
+export default useMedicines;

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 import image_one from "@/assets/images/image_two.png"
 
-export default function LoginPage() {
+const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -79,3 +79,5 @@ export default function LoginPage() {
         </main>
     );
 }
+
+export default LoginPage;

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function ProfilePage() {
+const ProfilePage = () => {
     const [formData, setFormData] = useState({
         name: 'John Doe',
         email: 'john@example.com',
@@ -83,3 +83,5 @@ export default function ProfilePage() {
         </div>
     );
 }
+
+export default ProfilePage;

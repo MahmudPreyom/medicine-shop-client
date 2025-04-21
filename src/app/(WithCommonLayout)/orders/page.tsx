@@ -17,7 +17,7 @@ const fakeOrders = [
   },
 ];
 
-export default function OrdersPage() {
+const OrdersPage = () => {
   return (
     <div className="px-4 py-16 bg-white min-h-screen flex justify-center">
       <div className="w-full max-w-3xl">
@@ -49,3 +49,5 @@ export default function OrdersPage() {
     </div>
   );
 }
+
+export default OrdersPage;

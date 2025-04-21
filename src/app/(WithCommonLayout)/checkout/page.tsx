@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function CheckoutPage() {
+const CheckoutPage = () => {
     const [prescriptionRequired, setPrescriptionRequired] = useState(true);
     const [selectedPayment, setSelectedPayment] = useState('');
 
@@ -84,3 +84,5 @@ export default function CheckoutPage() {
         </div>
     );
 }
+
+export default CheckoutPage;

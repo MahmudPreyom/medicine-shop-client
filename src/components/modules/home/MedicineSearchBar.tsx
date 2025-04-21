@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function MedicineSearchBar() {
+const MedicineSearchBar = () => {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('');
 
@@ -42,3 +42,5 @@ export default function MedicineSearchBar() {
     </section>
   );
 }
+
+export default MedicineSearchBar;

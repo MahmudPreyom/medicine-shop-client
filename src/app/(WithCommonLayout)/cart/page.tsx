@@ -28,7 +28,7 @@ const initialCart: CartItem[] = [
     },
 ];
 
-export default function CartPage() {
+const CartPage = () => {
     const [cart, setCart] = useState<CartItem[]>(initialCart);
 
     const router = useRouter();
@@ -110,3 +110,5 @@ export default function CartPage() {
         </div>
     );
 }
+
+export default CartPage;

@@ -13,7 +13,7 @@ const allMedicines = Array.from({ length: 50 }).map((_, i) => ({
   image: '/assets/medicines/paracetamol.png',
 }));
 
-export default function MedicineDetails({ params }: { params: { id: string } }) {
+const MedicineDetails = ({ params }: { params: { id: string } }) => {
   const medicine = allMedicines.find((med) => med.id === params.id);
 
   if (!medicine) return notFound();
@@ -49,3 +49,5 @@ export default function MedicineDetails({ params }: { params: { id: string } }) 
     </div>
   );
 }
+
+export default MedicineDetails;

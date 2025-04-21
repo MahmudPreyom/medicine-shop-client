@@ -36,7 +36,7 @@ const featuredMedicines: Medicine[] = [
   },
 ];
 
-export default function FeaturedMedicines() {
+const FeaturedMedicines = () => {
   return (
     <section className="py-16 px-6 md:px-24 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -71,3 +71,5 @@ export default function FeaturedMedicines() {
     </section>
   );
 }
+
+export default FeaturedMedicines;

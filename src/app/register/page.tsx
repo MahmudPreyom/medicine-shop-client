@@ -7,14 +7,14 @@ import { Eye, EyeOff, Home } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function RegisterPage() {
+const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md space-y-6">
-        
+
         {/* Top: Header + Home */}
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-primary">Create Account</h1>
@@ -97,3 +97,5 @@ export default function RegisterPage() {
     </main>
   );
 }
+
+export default RegisterPage;

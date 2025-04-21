@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import image_three from "@/assets/images/image_three.png"
 
-export default function BrandingSection() {
+const BrandingSection = () => {
   return (
     <section className="bg-white py-20 px-6 md:px-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-2">
       <div className="w-full lg:w-2/5 max-w-xl">
@@ -38,3 +38,5 @@ export default function BrandingSection() {
     </section>
   );
 }
+
+export default BrandingSection;

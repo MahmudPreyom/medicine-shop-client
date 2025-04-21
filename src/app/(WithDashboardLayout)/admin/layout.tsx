@@ -11,8 +11,8 @@ const adminLinks = [
   { label: 'Medicines', href: '/admin/medicines' },
   { label: 'Orders', href: '/admin/orders' },
   { label: 'Users', href: '/admin/users' },
-  { label: 'Stock', href: '/admin/stock' },
-  { label: 'Prescriptions', href: '/admin/prescriptions' },
+  // { label: 'Stock', href: '/admin/stock' },
+  // { label: 'Prescriptions', href: '/admin/prescriptions' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

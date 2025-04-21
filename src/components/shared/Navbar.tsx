@@ -15,7 +15,7 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
+const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -133,3 +133,5 @@ export default function Navbar() {
     </header>
   );
 }
+
+export default Navbar;

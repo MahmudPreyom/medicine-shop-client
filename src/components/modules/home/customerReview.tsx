@@ -46,7 +46,7 @@ const reviews: Review[] = [
   },
 ];
 
-export default function CustomerReviews() {
+const CustomerReviews = () => {
   return (
     <section className="bg-gray-50 py-16 px-6 md:px-24">
       <div className="max-w-7xl mx-auto">
@@ -77,3 +77,5 @@ export default function CustomerReviews() {
     </section>
   );
 }
+
+export default CustomerReviews;

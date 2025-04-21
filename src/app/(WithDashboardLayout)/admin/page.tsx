@@ -1,6 +1,6 @@
 // app/(WithDashboardLayout)/admin/page.tsx
 
-export default function AdminDashboardPage() {
+const AdminDashboardPage = () => {
     const stats = {
       totalOrders: 124,
       stockItems: 320,
@@ -30,3 +30,5 @@ export default function AdminDashboardPage() {
       </div>
     );
   }
+
+  export default AdminDashboardPage;

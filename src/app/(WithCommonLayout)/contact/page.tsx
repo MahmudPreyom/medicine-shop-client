@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Send } from "lucide-react";
 
-export default function ContactPage() {
+const ContactPage = () => {
   return (
     <main className="max-w-4xl mx-auto px-4 py-16 space-y-12">
       
@@ -65,3 +65,5 @@ export default function ContactPage() {
     </main>
   );
 }
+
+export default ContactPage;

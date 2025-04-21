@@ -4,7 +4,7 @@ import MedicineCard from '@/components/modules/shop/MedicineCard';
 import useMedicines from '@/hooks/useMedicine';
 import { useState } from 'react';
 
-export default function ShopPage() {
+const ShopPage = () => {
   const [filters, setFilters] = useState({ category: '', sort: '' });
   const { medicines, hasMore, loadMore } = useMedicines(filters);
 
@@ -59,3 +59,5 @@ export default function ShopPage() {
     </div>
   );
 }
+
+export default ShopPage;

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function MedicineCard({ medicine }: { medicine: any }) {
+const MedicineCard = ({ medicine }: { medicine: any }) => {
   return (
     <div className="border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition">
       <div className="w-full h-40 relative mb-4">
@@ -22,3 +22,5 @@ export default function MedicineCard({ medicine }: { medicine: any }) {
     </div>
   );
 }
+
+export default MedicineCard;

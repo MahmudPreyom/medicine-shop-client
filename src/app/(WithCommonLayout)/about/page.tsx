@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import image_one from "@/assets/images/image_one.png"
 import Image from "next/image";
 
-export default function AboutPage() {
+const AboutPage = () => {
     return (
         <main className="max-w-6xl mx-auto px-4 py-12 space-y-20">
 
@@ -71,3 +71,4 @@ export default function AboutPage() {
         </main>
     );
 }
+export default AboutPage;
