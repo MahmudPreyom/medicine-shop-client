@@ -29,7 +29,7 @@ const MedicineTable = ({ medicines, handleDelete, handleEdit }: Props) => {
               <td className="px-4 py-2">{med.name}</td>
               <td className="px-4 py-2">{med.category}</td>
               <td className="px-4 py-2">{med.description}</td>
-              <td className="px-4 py-2">₹{med.price}</td>
+              <td className="px-4 py-2">৳{med.price}</td>
               <td className="px-4 py-2">{med.stock}</td>
               <td className="px-4 py-2">{med.prescriptionRequired ? 'Yes' : 'No'}</td>
               <td className="px-4 py-2">{med.manufacturer}</td>

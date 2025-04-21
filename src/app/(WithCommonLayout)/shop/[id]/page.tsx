@@ -40,7 +40,7 @@ const MedicineDetails = ({ params }: { params: { id: string } }) => {
             <strong>Prescription Required:</strong>{' '}
             {medicine.prescriptionRequired ? 'Yes' : 'No'}
           </p>
-          <p className="text-2xl font-semibold text-black mb-6">₹{medicine.price}</p>
+          <p className="text-2xl font-semibold text-black mb-6">৳{medicine.price}</p>
           <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
             Add to Cart
           </button>

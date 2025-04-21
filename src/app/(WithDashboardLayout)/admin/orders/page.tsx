@@ -71,7 +71,7 @@ const AdminOrdersPage = () => {
               <tr key={order.id} className="border-t">
                 <td className="px-4 py-2">#{order.id}</td>
                 <td className="px-4 py-2">{order.customer}</td>
-                <td className="px-4 py-2">₹{order.total}</td>
+                <td className="px-4 py-2">৳{order.total}</td>
                 <td className="px-4 py-2">
                   {order.prescriptionRequired
                     ? order.prescriptionUploaded

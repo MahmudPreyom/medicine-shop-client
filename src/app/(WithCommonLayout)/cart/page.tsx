@@ -69,7 +69,7 @@ const CartPage = () => {
                                         />
                                         <div className="flex-1">
                                             <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
-                                            <p className="text-gray-500">₹{item.price} each</p>
+                                            <p className="text-gray-500">৳{item.price} each</p>
                                             <div className="mt-2 flex items-center gap-3">
                                                 <input
                                                     type="number"
@@ -94,7 +94,7 @@ const CartPage = () => {
 
                             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                                 <p className="text-xl font-semibold text-gray-900">
-                                    Total: ₹{total.toFixed(2)}
+                                    Total: ৳{total.toFixed(2)}
                                 </p>
                                 <button
                                     onClick={() => router.push('/checkout')}

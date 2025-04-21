@@ -41,7 +41,7 @@ const OrdersPage = () => {
               Items: {order.items.join(', ')}
             </p>
             <p className="text-sm font-semibold text-gray-900">
-              Total: ₹{order.total}
+              Total: ৳{order.total}
             </p>
           </div>
         ))}
