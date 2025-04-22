@@ -1,13 +1,14 @@
 'use client';
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useUser } from '@/hooks/useUser';
+import toast from "react-hot-toast";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -20,12 +21,16 @@ const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const { user, isLoggedIn } = useUser();
+  const { user, isLoggedIn, isAdmin } = useUser();
+  const router = useRouter()
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
-    window.location.reload();
+
+    toast.success('Logout successful!');
+    router.push('/login');
+    // window.location.reload();
   };
 
 
@@ -118,6 +123,18 @@ const Navbar = () => {
                   >
                     Profile
                   </Link>
+                  {isAdmin ?
+                    <Link
+                      href="/admin"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    :
+                    null
+                  }
+
                   <button
                     onClick={() => {
                       setProfileMenuOpen(false);

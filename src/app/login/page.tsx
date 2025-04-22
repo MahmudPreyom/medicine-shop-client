@@ -8,6 +8,8 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
+
 
 
 type DecodedToken = {
@@ -50,17 +52,18 @@ const LoginPage = () => {
 
                 localStorage.setItem('user', JSON.stringify(userData));
 
-                console.log("Login successful!");
+
+                toast.success('Login successful!');
 
                 decoded.role === 'admin'
                     ? router.push('/admin')
                     : router.push('/');
             } else {
-                alert("Login failed: " + result.message);
+                toast.error("Login failed: " + result.message);
             }
         } catch (err) {
+            // toast.error("Login error:", err);
             console.error("Login error:", err);
-            alert("Something went wrong");
         }
     };
 
