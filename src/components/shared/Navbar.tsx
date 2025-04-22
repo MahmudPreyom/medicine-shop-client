@@ -1,12 +1,14 @@
 'use client';
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useUser } from '@/hooks/useUser';
+import toast from "react-hot-toast";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -19,6 +21,18 @@ const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const { user, isLoggedIn, isAdmin } = useUser();
+  const router = useRouter()
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+
+    toast.success('Logout successful!');
+    router.push('/login');
+    // window.location.reload();
+  };
+
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -70,45 +84,70 @@ const Navbar = () => {
           </Link>
 
           {/* Auth */}
-          <Link href="/login">
-            <Button size="sm" variant="outline" className="flex items-center gap-1">
-              <User className="w-4 h-4" /> Login
-            </Button>
-          </Link>
+          {!isLoggedIn ?
+            <>
+              <Link href="/login">
+                <Button size="sm" variant="outline" className="flex items-center gap-1">
+                  <User className="w-4 h-4" /> Login
+                </Button>
+              </Link>
+            </>
+            :
+            <div className="relative">
+              <button
+                onClick={() => setProfileMenuOpen((prev) => !prev)}
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+              >
+                <User className="w-5 h-5 text-muted-foreground" />
+              </button>
+              {profileMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-md z-50">
+                  <Link
+                    href="/cart"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setProfileMenuOpen(false)}
+                  >
+                    Cart
+                  </Link>
+                  <Link
+                    href="/orders"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setProfileMenuOpen(false)}
+                  >
+                    Order History
+                  </Link>
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setProfileMenuOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  {isAdmin ?
+                    <Link
+                      href="/admin"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    :
+                    null
+                  }
 
-          <div className="relative">
-            <button
-              onClick={() => setProfileMenuOpen((prev) => !prev)}
-              className="p-2 rounded-full hover:bg-gray-100 transition"
-            >
-              <User className="w-5 h-5 text-muted-foreground" />
-            </button>
-            {profileMenuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-md z-50">
-                <Link
-                  href="/cart"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={() => setProfileMenuOpen(false)}
-                >
-                  Cart
-                </Link>
-                <Link
-                  href="/orders"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={() => setProfileMenuOpen(false)}
-                >
-                  Order History
-                </Link>
-                <Link
-                  href="/profile"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={() => setProfileMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-              </div>
-            )}
-          </div>
+                  <button
+                    onClick={() => {
+                      setProfileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          }
         </div>
       </div>
 

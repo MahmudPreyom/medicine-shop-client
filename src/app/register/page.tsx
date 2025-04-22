@@ -5,11 +5,51 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Home } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const router = useRouter()
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password !== confirm) {
+      alert("Passwords do not match");
+      return;
+    }
+
+
+    try {
+      const res = await fetch("https://medicine-shop-server-mu.vercel.app/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          role: "customer",
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        alert("Registration successful!");
+        router.push('/login')
+      } else {
+        alert(result.message || "Registration failed");
+      }
+    } catch (error) {
+      alert("Something went wrong");
+      console.error(error);
+    }
+  };
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4 py-10">
@@ -30,17 +70,17 @@ const RegisterPage = () => {
         </p>
 
         {/* Registration Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Full Name */}
           <div>
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" type="text" placeholder="John Doe" />
+            <Input id="name" type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
 
           {/* Email */}
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="you@example.com" />
+            <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
 
           {/* Password */}
@@ -52,6 +92,8 @@ const RegisterPage = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 className="pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -72,6 +114,8 @@ const RegisterPage = () => {
                 type={showConfirm ? "text" : "password"}
                 placeholder="••••••••"
                 className="pr-10"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
               />
               <button
                 type="button"

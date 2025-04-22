@@ -1,16 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/hooks/useUser';
 
 const adminLinks = [
   { label: 'Dashboard', href: '/admin' },
   { label: 'Medicines', href: '/admin/medicines' },
   { label: 'Orders', href: '/admin/orders' },
   { label: 'Users', href: '/admin/users' },
+  { label: 'Home Page', href: '/' },
   // { label: 'Stock', href: '/admin/stock' },
   // { label: 'Prescriptions', href: '/admin/prescriptions' },
 ];
@@ -18,6 +20,28 @@ const adminLinks = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useUser();
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+
+
+  useEffect(() => {
+
+    if (!user || user.role !== 'admin') {
+      router.push('/');
+    } else {
+      setChecking(false);
+    }
+
+  }, [user]);
+
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="text-lg font-medium text-gray-600">Checking access...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen relative">

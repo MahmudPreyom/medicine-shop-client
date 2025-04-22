@@ -4,13 +4,68 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Home } from "lucide-react";
-import Image from "next/image";
+import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useState } from "react";
-import image_one from "@/assets/images/image_two.png"
+import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
+
+
+
+type DecodedToken = {
+    _id: string;
+    email: string;
+    role: 'admin' | 'customer';
+};
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useRouter()
+
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const res = await fetch("https://medicine-shop-server-mu.vercel.app/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const result = await res.json();
+
+            if (result.success) {
+                // token set to the localStorage
+                localStorage.setItem("accessToken", result.data.accessToken);
+
+                // token decode and set userData to localStorage
+                const token = result.data.accessToken;
+                const decoded: DecodedToken = jwtDecode(token);
+                const userData = {
+                    id: decoded._id,
+                    email: decoded.email,
+                    role: decoded.role,
+                };
+
+                localStorage.setItem('user', JSON.stringify(userData));
+
+
+                toast.success('Login successful!');
+
+                decoded.role === 'admin'
+                    ? router.push('/admin')
+                    : router.push('/');
+            } else {
+                toast.error("Login failed: " + result.message);
+            }
+        } catch (err) {
+            // toast.error("Login error:", err);
+            console.error("Login error:", err);
+        }
+    };
 
     return (
         <main className="min-h-screen grid grid-cols-1 md:grid-cols-2">
@@ -27,11 +82,17 @@ const LoginPage = () => {
                 </div>
                 <p className="text-muted-foreground mb-6">Log in to your MediMart account</p>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleLogin}>
                     {/* Email */}
                     <div>
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="you@example.com" />
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
 
                     {/* Password */}
@@ -43,6 +104,8 @@ const LoginPage = () => {
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
                                 className="pr-10"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                             <button
                                 type="button"
