@@ -20,15 +20,28 @@ const adminLinks = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
   const { user } = useUser();
   const router = useRouter();
+  const [checking, setChecking] = useState(true);
+
 
   useEffect(() => {
+
     if (!user || user.role !== 'admin') {
       router.push('/');
+    } else {
+      setChecking(false);
     }
+
   }, [user]);
+
+  if (checking) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <span className="text-lg font-medium text-gray-600">Checking access...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen relative">
