@@ -14,7 +14,7 @@ const MedicineCard = ({ medicine }: { medicine: any }) => {
       </div>
       <h3 className="text-lg font-semibold text-gray-800 mb-1">{medicine.name}</h3>
       <p className="text-gray-500 mb-4">৳{medicine.price}</p>
-      <Link href={`/shop/${medicine.id}`}>
+      <Link href={`/shop/${medicine._id}`}>
         <button className="bg-black text-white w-full py-2 rounded-lg hover:bg-gray-800 transition">
           View Details
         </button>

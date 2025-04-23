@@ -1,97 +1,107 @@
 'use client';
 
-import MedicineForm from '@/components/modules/admin/MedicineForm';
 import MedicineTable from '@/components/modules/admin/MedicineTable';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+
 export type Medicine = {
-  id: number;
+  id: string;
   name: string;
-  description: string;
-  category: string;
+  company: string;
+  image: string;
   price: number;
-  stock: number;
+  type: string;
+  description: string;
+  quantity: number;
+  inStock: boolean;
   prescriptionRequired: boolean;
-  manufacturer: string;
   expiryDate: string;
+  symptoms: string[];
+  manufacturerDetails: string;
 };
 
-const initialData: Medicine[] = [
-  {
-    id: 1,
-    name: 'Paracetamol',
-    description: 'Used to treat pain and fever.',
-    category: 'Pain Relief',
-    price: 30,
-    stock: 100,
-    prescriptionRequired: false,
-    manufacturer: 'MediPharma',
-    expiryDate: '2025-12-31',
-  },
-  {
-    id: 2,
-    name: 'Vitamin C',
-    description: 'Boosts immunity and helps with tissue repair.',
-    category: 'Vitamins',
-    price: 80,
-    stock: 50,
-    prescriptionRequired: false,
-    manufacturer: 'HealthPlus',
-    expiryDate: '2024-09-15',
-  },
-];
 
-const AdminMedicinesPage = () => {
-  const [medicines, setMedicines] = useState<Medicine[]>(initialData);
-  const [newMedicine, setNewMedicine] = useState<Omit<Medicine, 'id'>>({
-    name: '',
-    description: '',
-    category: '',
-    price: 0,
-    stock: 0,
-    prescriptionRequired: false,
-    manufacturer: '',
-    expiryDate: '',
-  });
 
-  const handleAddMedicine = () => {
-    if (!newMedicine.name || !newMedicine.category) return;
-    setMedicines((prev) => [
-      ...prev,
-      { ...newMedicine, id: Date.now() },
-    ]);
-    setNewMedicine({
-      name: '',
-      description: '',
-      category: '',
-      price: 0,
-      stock: 0,
-      prescriptionRequired: false,
-      manufacturer: '',
-      expiryDate: '',
+const AllMedicinesPage = () => {
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchMedicines = async () => {
+      const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
+      const json = await res.json();
+
+      const formatted = json.data.map((item: any) => ({
+        id: item._id,
+        name: item.name,
+        company: item.company,
+        image: item.image,
+        price: item.price,
+        type: item.type,
+        description: item.description,
+        quantity: item.quantity,
+        inStock: item.inStock,
+        prescriptionRequired: item.prescriptionRequired,
+        expiryDate: item.expiryDate,
+        symptoms: item.symptoms,
+        manufacturerDetails: item.manufacturerDetails,
+      }));
+
+      setMedicines(formatted);
+    };
+
+    fetchMedicines();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    // making an alert before delete
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete this medicine?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
     });
-  };
 
-  const handleDelete = (id: number) => {
-    setMedicines((prev) => prev.filter((m) => m.id !== id));
-  };
+    if (!result.isConfirmed) return;
 
-  const handleEdit = (id: number) => {
-    const med = medicines.find((m) => m.id === id);
-    if (med) {
-      const { id, ...rest } = med;
-      setNewMedicine(rest);
+    // Performing delete actoins
+    const token = localStorage.getItem('accessToken');
+    try {
+      const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token || '',
+        },
+      });
+
+      const result = await res.json();
+      if (result.status) {
+        toast.success('Medicine deleted successfully');
+        setMedicines((prev) => prev.filter((m) => m.id !== id));
+      } else {
+        toast.error('Failed to delete medicine');
+      }
+    } catch (err) {
+      toast.error('Error deleting medicine');
     }
+  };
+
+  const handleEdit = (id: string) => {
+    router.push(`/admin/medicines/edit/${id}`);
   };
 
   return (
     <div>
+      <div className="flex justify-end mb-4">
+        <a href="/admin/medicines/add" className="w-full md:w-auto bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+          Add Medicine
+        </a>
+      </div>
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Manage Medicines</h1>
-
-      <MedicineForm
-        newMedicine={newMedicine}
-        setNewMedicine={setNewMedicine}
-        handleAddMedicine={handleAddMedicine}
-      />
 
       <MedicineTable
         medicines={medicines}
@@ -102,4 +112,4 @@ const AdminMedicinesPage = () => {
   );
 }
 
-export default AdminMedicinesPage;
+export default AllMedicinesPage;

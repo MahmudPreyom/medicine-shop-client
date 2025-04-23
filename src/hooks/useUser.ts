@@ -10,17 +10,19 @@ type User = {
 
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
     if (stored) {
       try {
-        const parsed: User = JSON.parse(stored);
+        const parsed = JSON.parse(stored);
         setUser(parsed);
       } catch {
         setUser(null);
       }
     }
+    setLoading(false);
   }, []);
 
   return {
@@ -28,5 +30,6 @@ export const useUser = () => {
     isLoggedIn: !!user,
     isAdmin: user?.role === 'admin',
     isCustomer: user?.role === 'customer',
+    loading,
   };
 };
