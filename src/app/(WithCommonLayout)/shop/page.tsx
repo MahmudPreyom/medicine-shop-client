@@ -42,7 +42,6 @@ const ShopPage = () => {
     fetchData();
   }, []);
 
-  console.log(medicines)
 
 
   return (
