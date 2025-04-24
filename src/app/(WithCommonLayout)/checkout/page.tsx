@@ -22,7 +22,7 @@ const CheckoutPage = () => {
                     quantity: item.quantity,
                     prescriptionImage: 'https://example.com/paracetamol.jpg', // This should be updated to actual image
                 };
-
+                
                 return fetch('https://medicine-shop-server-mu.vercel.app/api/orders', {
                     method: 'POST',
                     headers: {
@@ -32,7 +32,7 @@ const CheckoutPage = () => {
                     body: JSON.stringify(orderPayload),
                 });
             });
-
+            console.log(promises)
             const responses = await Promise.all(promises);
             const results = await Promise.all(responses.map((res) => res.json()));
 
