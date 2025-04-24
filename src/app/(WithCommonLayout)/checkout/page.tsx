@@ -1,46 +1,69 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { removeFromCart } from '@/redux/featurs/cartSlice';
 
 const CheckoutPage = () => {
     const [prescriptionRequired, setPrescriptionRequired] = useState(true);
-    const [selectedPayment, setSelectedPayment] = useState('');
+    const [selectedPayment, setSelectedPayment] = useState('surjopay');
+    const [prescriptionImage, setPrescriptionImage] = useState('');
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const cartItems = useSelector((state: RootState) => state.cart.items);
 
+    const searchParams = useSearchParams();
+    const productId = searchParams.get('id');
+    const selectedItem = cartItems.find(item => item._id === productId);
+
+    const isPrescriptionRequiredAndMissing = cartItems.some(item => item.prescriptionRequired) && !prescriptionImage;
+
     const handleConfirm = async () => {
         try {
-            const token = localStorage.getItem('accessToken');
-            const promises = cartItems.map((item) => {
-                const orderPayload = {
-                    product: item._id,
-                    quantity: item.quantity,
-                    prescriptionImage: 'https://example.com/paracetamol.jpg', // This should be updated to actual image
-                };
-                
-                return fetch('https://medicine-shop-server-mu.vercel.app/api/orders', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: token || '',
-                    },
-                    body: JSON.stringify(orderPayload),
-                });
-            });
-            console.log(promises)
-            const responses = await Promise.all(promises);
-            const results = await Promise.all(responses.map((res) => res.json()));
-
-            if (results.every((res) => res.success)) {
-                router.push('/orders');
-            } else {
-                alert('Failed to place one or more orders');
+            if (!selectedPayment) {
+                alert('Please select a payment method.');
+                return;
             }
+
+            if (!selectedItem) {
+                alert('No matching product found in cart.');
+                return;
+            }
+
+            const token = localStorage.getItem('accessToken');
+            const orderPayload = {
+                product: selectedItem._id,
+                quantity: selectedItem.quantity,
+                prescriptionImage,
+            };
+
+            const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: token || '',
+                },
+                body: JSON.stringify(orderPayload),
+            });
+
+            const result = await res.json();
+            console.log(result)
+
+            if (result.success) {
+                dispatch(removeFromCart(selectedItem._id));
+                if (selectedPayment === 'surjopay' && result.data?.checkout_url) {
+                    window.location.href = result.data.checkout_url;
+                } else {
+                    router.push('/orders');
+                }
+            } else {
+                alert('Failed to place the order');
+            }
+
         } catch (err) {
             console.error('Error placing order:', err);
         }
@@ -52,7 +75,7 @@ const CheckoutPage = () => {
                 <h1 className="text-3xl font-bold text-gray-900">Checkout</h1>
 
                 {/* Shipping Details */}
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-gray-800">Shipping Information</h2>
                     <input
                         type="text"
@@ -84,13 +107,19 @@ const CheckoutPage = () => {
                         className="w-full border rounded-lg px-4 py-2"
                         required
                     />
-                </div>
+                </div> */}
 
                 {/* Prescription Upload */}
                 {prescriptionRequired && (
                     <div className="space-y-2">
                         <h2 className="text-xl font-semibold text-gray-800">Upload Prescription</h2>
-                        <input type="file" className="block w-full text-sm text-gray-600" />
+                        <input
+                            type="text"
+                            placeholder="Prescription Image URL"
+                            value={prescriptionImage}
+                            onChange={(e) => setPrescriptionImage(e.target.value)}
+                            className="w-full border rounded-lg px-4 py-2"
+                        />
                     </div>
                 )}
 
@@ -111,7 +140,8 @@ const CheckoutPage = () => {
                 {/* Confirm Button */}
                 <button
                     onClick={handleConfirm}
-                    className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition"
+                    disabled={isPrescriptionRequiredAndMissing}
+                    className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                     Confirm Order
                 </button>

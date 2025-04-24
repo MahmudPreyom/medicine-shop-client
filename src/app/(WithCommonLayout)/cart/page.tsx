@@ -68,12 +68,20 @@ const CartPage = () => {
                       ৳{(item.price * (item.quantity || 1)).toFixed(2)}
                     </td>
                     <td className="px-4 py-2 text-center">
-                      <button
-                        onClick={() => dispatch(removeFromCart(item._id))}
-                        className="text-red-600 hover:underline"
-                      >
-                        Remove
-                      </button>
+                      <div className="flex justify-center items-center gap-2">
+                        <button
+                          onClick={() => dispatch(removeFromCart(item._id))}
+                          className="px-4 py-1 text-sm rounded-lg text-white bg-red-600 hover:bg-red-700"
+                        >
+                          Remove
+                        </button>
+                        <button
+                          onClick={() => router.push(`/checkout?id=${item._id}`)}
+                          className="px-4 py-1 text-sm rounded-lg text-white bg-green-600 hover:bg-green-700"
+                        >
+                          Payout
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -82,12 +90,6 @@ const CartPage = () => {
 
             <div className="mt-6 flex justify-between items-center">
               <p className="text-xl font-semibold">Total: ৳{total.toFixed(2)}</p>
-              <button
-                onClick={() => router.push('/checkout')}
-                className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
-              >
-                Proceed to Checkout
-              </button>
             </div>
           </div>
         )}
