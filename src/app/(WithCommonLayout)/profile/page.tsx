@@ -1,14 +1,41 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ProfilePage = () => {
     const [formData, setFormData] = useState({
-        name: 'John Doe',
-        email: 'john@example.com',
-        phone: '9876543210',
-        address: '123 Main St, City',
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
     });
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const token = localStorage.getItem('accessToken');
+            try {
+                const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/user/get-my-data', {
+                    headers: {
+                        Authorization: token || '',
+                    },
+                });
+                const result = await res.json();
+                if (result.success) {
+                    const { name, email } = result.data;
+                    setFormData({
+                        name,
+                        email,
+                        phone: '',
+                        address: '',
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -47,28 +74,6 @@ const ProfilePage = () => {
                         name="email"
                         className="w-full border rounded-lg px-4 py-2"
                         value={formData.email}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <label className="block text-gray-700 font-medium">Phone</label>
-                    <input
-                        type="tel"
-                        name="phone"
-                        className="w-full border rounded-lg px-4 py-2"
-                        value={formData.phone}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <label className="block text-gray-700 font-medium">Address</label>
-                    <input
-                        type="text"
-                        name="address"
-                        className="w-full border rounded-lg px-4 py-2"
-                        value={formData.address}
                         onChange={handleChange}
                     />
                 </div>
