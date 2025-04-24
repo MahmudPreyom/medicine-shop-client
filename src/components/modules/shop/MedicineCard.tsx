@@ -1,8 +1,8 @@
-import { TMedicine } from "@/types";
+import { Medicine } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-const MedicineCard = ({ medicine }: { medicine: TMedicine }) => {
+const MedicineCard = ({ medicine }: { medicine: Medicine }) => {
   console.log(medicine);
   return (
     <div className="border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition">

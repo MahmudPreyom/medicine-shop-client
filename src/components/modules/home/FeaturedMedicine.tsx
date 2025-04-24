@@ -1,11 +1,11 @@
 "use client";
 
-import { TMedicine } from "@/types";
+import { Medicine } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import MedicineCard from "../shop/MedicineCard";
 
-const FeaturedMedicines = ({ medicine }: { medicine: TMedicine[] }) => {
+const FeaturedMedicines = ({ medicine }: { medicine: Medicine[] }) => {
   return (
     <section className="py-16 px-6 md:px-24 bg-white">
       <div className="max-w-7xl mx-auto">
