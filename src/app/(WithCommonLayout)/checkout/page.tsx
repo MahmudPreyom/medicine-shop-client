@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const CheckoutPage = () => {
     const [prescriptionRequired, setPrescriptionRequired] = useState(true);
@@ -9,9 +11,39 @@ const CheckoutPage = () => {
 
     const router = useRouter();
 
-    const handleConfirm = () => {
-        // Here you could also trigger an API call to place the order
-        router.push('/orders');
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+
+    const handleConfirm = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const promises = cartItems.map((item) => {
+                const orderPayload = {
+                    product: item._id,
+                    quantity: item.quantity,
+                    prescriptionImage: 'https://example.com/paracetamol.jpg', // This should be updated to actual image
+                };
+
+                return fetch('https://medicine-shop-server-mu.vercel.app/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token || '',
+                    },
+                    body: JSON.stringify(orderPayload),
+                });
+            });
+
+            const responses = await Promise.all(promises);
+            const results = await Promise.all(responses.map((res) => res.json()));
+
+            if (results.every((res) => res.success)) {
+                router.push('/orders');
+            } else {
+                alert('Failed to place one or more orders');
+            }
+        } catch (err) {
+            console.error('Error placing order:', err);
+        }
     };
 
     return (
@@ -26,26 +58,31 @@ const CheckoutPage = () => {
                         type="text"
                         placeholder="Full Name"
                         className="w-full border rounded-lg px-4 py-2"
+                        required
                     />
                     <input
                         type="text"
                         placeholder="Address Line 1"
                         className="w-full border rounded-lg px-4 py-2"
+                        required
                     />
                     <input
                         type="text"
                         placeholder="City"
                         className="w-full border rounded-lg px-4 py-2"
+                        required
                     />
                     <input
                         type="text"
                         placeholder="Postal Code"
                         className="w-full border rounded-lg px-4 py-2"
+                        required
                     />
                     <input
                         type="tel"
                         placeholder="Phone Number"
                         className="w-full border rounded-lg px-4 py-2"
+                        required
                     />
                 </div>
 
@@ -67,8 +104,7 @@ const CheckoutPage = () => {
                     >
                         <option value="">Select a payment option</option>
                         <option value="cod">Cash on Delivery</option>
-                        <option value="upi">UPI</option>
-                        <option value="card">Credit/Debit Card</option>
+                        <option value="surjopay">SurjoPay</option>
                     </select>
                 </div>
 

@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useUser } from '@/hooks/useUser';
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from '@/redux/store';
 import { logout } from "@/redux/featurs/userSlice";
 
 const navLinks = [
@@ -26,6 +27,10 @@ const Navbar = () => {
   const { user, isLoggedIn, isAdmin } = useUser();
   const router = useRouter()
   const dispatch = useDispatch();
+
+  const cartCount = useSelector((state: RootState) =>
+    state.cart.items.reduce((total, item) => total + (item.quantity || 1), 0)
+  );
 
   const handleLogout = () => {
     dispatch(logout());
@@ -82,9 +87,11 @@ const Navbar = () => {
           {/* Cart */}
           <Link href="/cart" className="relative">
             <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary transition" />
-            <span className="absolute -top-2 -right-2 text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded-full">
-              2
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded-full">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
           {/* Auth */}
