@@ -1,106 +1,102 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type User = {
-  userId: string;
+  _id: string;
   name: string;
   email: string;
-  active: boolean;
-  orders: number;
+  role: string;
+  isActivate: boolean;
 };
 
-const initialUsers: User[] = [
-  { userId: '1', name: 'John Doe', email: 'john@example.com', active: true, orders: 5 },
-  { userId: '2', name: 'Jane Smith', email: 'jane@example.com', active: false, orders: 2 },
-  { userId: '3', name: 'Ariana Pillai', email: 'ariana@medimart.com', active: true, orders: 9 },
-];
+const UserManagementPage = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-const AdminUsersPage = () => {
-  const [users, setUsers] = useState<User[]>(initialUsers);
-  const [search, setSearch] = useState('');
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/user', {
+          headers: {
+            Authorization: token || '',
+          },
+        });
+        const data = await res.json();
+        setUsers(data.data || []);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const filteredUsers = users.filter((user) =>
-    user.email.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const toggleActive = (userId: string) => {
-    setUsers((prev) =>
-      prev.map((user) =>
-        user.userId === userId ? { ...user, active: !user.active } : user
-      )
-    );
-  };
+    fetchUsers();
+  }, []);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Manage Users</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">All Users</h1>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search by email..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-6 w-full md:w-1/3 px-4 py-2 border rounded"
-      />
-
-      {/* Users Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full border text-left text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2">Name</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Orders</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.userId} className="border-t">
-                <td className="px-4 py-2">{user.name}</td>
-                <td className="px-4 py-2">{user.email}</td>
-                <td className="px-4 py-2">{user.orders}</td>
-                <td className="px-4 py-2">
-                  <span
-                    className={`text-sm font-medium ${
-                      user.active ? 'text-green-600' : 'text-red-500'
-                    }`}
-                  >
-                    {user.active ? 'Active' : 'Deactivated'}
-                  </span>
-                </td>
-                <td className="px-4 py-2 space-x-2">
-                  <Link
-                    href={`/admin/users/${user.userId}`}
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    View Profile
-                  </Link>
-                  <button
-                    onClick={() => toggleActive(user.userId)}
-                    className="text-yellow-600 hover:underline text-sm"
-                  >
-                    {user.active ? 'Deactivate' : 'Activate'}
-                  </button>
-                </td>
+      {loading ? (
+        <p>Loading users...</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200">
+            <thead>
+              <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+                <th className="px-6 py-3">Name</th>
+                <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">Role</th>
+                <th className="px-6 py-3">Action</th>
               </tr>
-            ))}
-            {filteredUsers.length === 0 && (
-              <tr>
-                <td colSpan={5} className="text-center py-4 text-gray-500">
-                  No users found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id} className="text-sm border-b">
+                  <td className="px-6 py-4">{user.name}</td>
+                  <td className="px-6 py-4">{user.email}</td>
+                  <td className="px-6 py-4 capitalize">{user.role}</td>
+                  <td className="px-6 py-4 space-x-2">
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('accessToken');
+                          await fetch(`https://medicine-shop-server-mu.vercel.app/api/user/${user._id}/block`, {
+                            method: 'PATCH',
+                            headers: {
+                              Authorization: token || '',
+                            },
+                          });
+                          setUsers((prev) =>
+                            prev.map((u) =>
+                              u._id === user._id ? { ...u, isActivate: false } : u
+                            )
+                          );
+                        } catch (err) {
+                          console.error('Deactivation failed', err);
+                        }
+                      }}
+                      disabled={!user.isActivate}
+                      className={`px-4 py-1 text-sm rounded-lg text-white ${user.isActivate
+                          ? 'bg-red-600 hover:bg-red-700'
+                          : 'bg-gray-400 cursor-not-allowed'
+                        }`}
+                    >
+                      Deactivate
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default AdminUsersPage;
+export default UserManagementPage;

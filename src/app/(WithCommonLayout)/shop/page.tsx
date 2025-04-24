@@ -2,11 +2,48 @@
 
 import MedicineCard from '@/components/modules/shop/MedicineCard';
 import useMedicines from '@/hooks/useMedicine';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+type Medicine = {
+  _id: string;
+  name: string;
+  company: string;
+  image: string;
+  price: number;
+  type: string;
+  symptoms: string[];
+  description: string;
+  quantity: number;
+  inStock: boolean;
+  prescriptionRequired: boolean;
+  manufactureDetails: string;
+  expiryDate: string;
+};
 
 const ShopPage = () => {
   const [filters, setFilters] = useState({ category: '', sort: '' });
-  const { medicines, hasMore, loadMore } = useMedicines(filters);
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
+        const data = await res.json();
+        setMedicines(data.data || []);
+      } catch (err) {
+        console.error('Failed to load medicines', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(medicines)
+
 
   return (
     <div className="px-6 md:px-24 py-16 bg-white">
@@ -41,12 +78,12 @@ const ShopPage = () => {
       {/* Medicines Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {medicines.map((med) => (
-          <MedicineCard key={med.id} medicine={med} />
+          <MedicineCard key={med?._id} medicine={med} />
         ))}
       </div>
 
       {/* Load More */}
-      {hasMore && (
+      {/* {hasMore && (
         <div className="text-center mt-10">
           <button
             onClick={loadMore}
@@ -55,7 +92,7 @@ const ShopPage = () => {
             Load More
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
