@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '@/redux/store';
 import { logout } from "@/redux/featurs/userSlice";
+import { clearCart } from "@/redux/featurs/cartSlice";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -34,6 +35,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
 

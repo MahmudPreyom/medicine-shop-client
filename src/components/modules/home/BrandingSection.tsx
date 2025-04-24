@@ -7,14 +7,14 @@ import image_three from "@/assets/images/image_three.png"
 const BrandingSection = () => {
   return (
     <section className="bg-white py-20 px-6 md:px-24 mx-auto">
-      <div className="w-full max-w-xl">
+      <div className='max-w-7xl mx-auto'>
         <div className="mb-4 inline-block px-3 py-1 rounded-full bg-gray-100 text-sm font-medium text-gray-700">
           Welcome to MediMart
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
+        <h1 className="md:max-w-1/2 text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6">
           Empowering Health Through <span className="text-black">Trusted Care</span>
         </h1>
-        <p className="text-lg text-gray-600 mb-8">
+        <p className="md:max-w-1/2 text-lg text-gray-600 mb-8">
           Discover a faster, safer way to get your medicines. MediMart brings authentic healthcare products to your door with just a few clicks.
         </p>
         <Link href="/shop">
