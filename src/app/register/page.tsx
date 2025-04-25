@@ -45,9 +45,8 @@ const RegisterPage = () => {
       } else {
         alert(result.message || "Registration failed");
       }
-    } catch (error) {
+    } catch {
       alert("Something went wrong");
-      console.error(error);
     }
   };
 

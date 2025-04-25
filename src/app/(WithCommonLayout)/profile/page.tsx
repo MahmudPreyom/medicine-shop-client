@@ -44,8 +44,6 @@ const ProfilePage = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Updated Profile:', formData);
-        // You can send this to backend here
     };
 
     return (

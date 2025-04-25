@@ -5,12 +5,27 @@ import { useForm } from 'react-hook-form';
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
+interface MedicineFormData {
+  name: string;
+  company: string;
+  image: string;
+  price: string | number;
+  type: string;
+  description: string;
+  quantity: string | number;
+  inStock: boolean;
+  prescriptionRequired: boolean;
+  expiryDate: string;
+  symptoms: string;
+  manufacturerDetails: string;
+}
+
 const EditMedicinePage = () => {
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<MedicineFormData>();
 
   useEffect(() => {
     const fetchMedicine = async () => {
@@ -32,16 +47,15 @@ const EditMedicinePage = () => {
           manufacturerDetails: data.manufacturerDetails,
         });
         setLoading(false);
-      } catch (err) {
+      } catch {
         toast.error('Failed to load medicine');
       }
     };
     if (id) fetchMedicine();
   }, [id, reset]);
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: MedicineFormData) => {
     try {
-      console.log('Form Data:', formData);
       const token = localStorage.getItem('accessToken');
       const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`, {
         method: 'PATCH',
@@ -53,10 +67,10 @@ const EditMedicinePage = () => {
           name: formData.name,
           company: formData.company,
           image: formData.image,
-          price: parseFloat(formData.price),
+          price: parseFloat(formData.price as string),
           type: formData.type,
           description: formData.description,
-          quantity: parseInt(formData.quantity, 10),
+          quantity: parseInt(formData.quantity as string, 10),
           inStock: Boolean(formData.inStock),
           prescriptionRequired: Boolean(formData.prescriptionRequired),
           expiryDate: formData.expiryDate,
@@ -66,15 +80,13 @@ const EditMedicinePage = () => {
       });
 
       const result = await res.json();
-      console.log(result)
       if (result.status) {
         toast.success('Medicine updated successfully');
         router.push('/admin/medicines');
       } else {
         toast.error(result.message || 'Failed to update medicine');
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error('Something went wrong');
     }
   };

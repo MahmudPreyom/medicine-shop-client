@@ -63,9 +63,11 @@ const LoginPage = () => {
 
                 toast.success('Login successful!');
 
-                decoded.role === 'admin'
-                    ? router.push('/admin')
-                    : router.push('/');
+                if (decoded.role === 'admin') {
+                  router.push('/admin');
+                } else {
+                  router.push('/');
+                }
             } else {
                 toast.error("Login failed: " + result.message);
             }

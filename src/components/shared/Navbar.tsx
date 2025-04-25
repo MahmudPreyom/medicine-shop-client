@@ -25,7 +25,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const { user, isLoggedIn, isAdmin } = useUser();
+  const { isLoggedIn, isAdmin } = useUser();
   const router = useRouter()
   const dispatch = useDispatch();
 
@@ -41,7 +41,6 @@ const Navbar = () => {
 
     toast.success('Logout successful!');
     router.push('/login');
-    // window.location.reload();
   };
 
 

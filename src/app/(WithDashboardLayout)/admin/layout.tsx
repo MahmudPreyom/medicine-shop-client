@@ -13,14 +13,11 @@ const adminLinks = [
   { label: 'Orders', href: '/admin/orders' },
   { label: 'Users', href: '/admin/users' },
   { label: 'Home Page', href: '/' },
-  // { label: 'Stock', href: '/admin/stock' },
-  // { label: 'Prescriptions', href: '/admin/prescriptions' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [checking, setChecking] = useState(true);
   const { user, loading } = useUser();
   const router = useRouter();
 
@@ -30,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         router.push('/');
       }
     }
-  }, [user, loading]);
+  }, [user, loading, router]);
 
   if (loading || !user || user.role !== 'admin') {
     return (

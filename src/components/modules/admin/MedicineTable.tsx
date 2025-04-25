@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Medicine } from '@/app/(WithDashboardLayout)/admin/medicines/page';
 
 type Props = {
@@ -29,7 +30,13 @@ const MedicineTable = ({ medicines, handleDelete, handleEdit }: Props) => {
           {medicines.map((med) => (
             <tr key={med.id} className="border-t">
               <td className="px-4 py-2">
-                <img src={med.image} alt={med.name} className="w-12 h-12 object-cover rounded" />
+                <Image
+                  src={med.image}
+                  alt={med.name}
+                  width={48}
+                  height={48}
+                  className="object-cover rounded"
+                />
               </td>
               <td className="px-4 py-2">{med.name}</td>
               <td className="px-4 py-2">{med.type}</td>

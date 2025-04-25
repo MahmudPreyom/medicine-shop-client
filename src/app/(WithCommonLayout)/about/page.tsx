@@ -1,5 +1,8 @@
 'use client';
 
+'use client';
+
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import image_one from "@/assets/images/image_one.png"
@@ -20,7 +23,7 @@ const AboutPage = () => {
                     We are reshaping how medicines reach people, one delivery at a time.
                 </p>
                 <Button className="mt-4" asChild>
-                    <a href="/shop">Explore Our Products</a>
+                    <Link href="/shop">Explore Our Products</Link>
                 </Button>
             </section>
 
@@ -45,7 +48,7 @@ const AboutPage = () => {
                     <h2 className="text-2xl font-semibold text-gray-800">Our Story</h2>
                     <p className="mt-4 text-muted-foreground leading-relaxed">
                         MediMart was born out of a passion for bridging the gap between healthcare and technology.
-                        From humble beginnings in 2020, we’ve grown into a nationwide online pharmacy trusted by hundreds of thousands.
+                        From humble beginnings in 2020, we have grown into a nationwide online pharmacy trusted by hundreds of thousands.
                         <br /><br />
                         Our team works tirelessly to ensure that every delivery is timely, every medicine is genuine, and every user is cared for.
                     </p>
@@ -62,10 +65,10 @@ const AboutPage = () => {
             <section className="text-center space-y-4 bg-primary/5 py-10 rounded-lg">
                 <h2 className="text-2xl font-bold text-primary">Join the MediMart Journey</h2>
                 <p className="text-muted-foreground max-w-xl mx-auto">
-                    Whether you're a customer, partner, or healthcare provider — let’s make healthcare better, together.
+                    Whether you are a customer, partner, or healthcare provider — let&apos;s make healthcare better, together.
                 </p>
                 <Button asChild>
-                    <a href="/contact">Get in Touch</a>
+                    <Link href="/contact">Get in Touch</Link>
                 </Button>
             </section>
         </main>

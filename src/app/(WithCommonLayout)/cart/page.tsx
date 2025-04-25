@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import { decrementQuantity, incrementQuantity, removeFromCart } from '@/redux/featurs/cartSlice';
+import Image from 'next/image';
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -39,10 +40,12 @@ const CartPage = () => {
                 {cartItems.map((item) => (
                   <tr key={item._id} className="border-t">
                     <td className="px-4 py-2">
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.name}
-                        className="w-16 h-16 object-cover rounded"
+                        width={64}
+                        height={64}
+                        className="object-cover rounded"
                       />
                     </td>
                     <td className="px-4 py-2">{item.name}</td>
@@ -76,7 +79,7 @@ const CartPage = () => {
                           Remove
                         </button>
                         <button
-                          onClick={() => router.push(`/checkout?id=${item._id}`)}
+                          onClick={() => router.push(`/checkout/${item._id}`)}
                           className="px-4 py-1 text-sm rounded-lg text-white bg-green-600 hover:bg-green-700"
                         >
                           Payout

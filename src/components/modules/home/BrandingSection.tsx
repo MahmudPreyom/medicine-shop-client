@@ -1,8 +1,6 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import image_three from "@/assets/images/image_three.png"
 
 const BrandingSection = () => {
   return (
