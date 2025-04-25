@@ -22,6 +22,22 @@ export type Medicine = {
   manufacturerDetails: string;
 };
 
+type RawMedicine = {
+  _id: string;
+  name: string;
+  company: string;
+  image: string;
+  price: number;
+  type: string;
+  description: string;
+  quantity: number;
+  inStock: boolean;
+  prescriptionRequired: boolean;
+  expiryDate: string;
+  symptoms: string[];
+  manufacturerDetails: string;
+};
+
 
 
 const AllMedicinesPage = () => {
@@ -33,7 +49,7 @@ const AllMedicinesPage = () => {
       const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
       const json = await res.json();
 
-      const formatted = json.data.map((item: any) => ({
+      const formatted = json.data.map((item: RawMedicine) => ({
         id: item._id,
         name: item.name,
         company: item.company,
@@ -85,7 +101,7 @@ const AllMedicinesPage = () => {
       } else {
         toast.error('Failed to delete medicine');
       }
-    } catch (err) {
+    } catch {
       toast.error('Error deleting medicine');
     }
   };

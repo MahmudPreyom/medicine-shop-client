@@ -1,6 +1,3 @@
-// app/(WithDashboardLayout)/admin/page.tsx
-
-
 const AdminDashboardPage = () => {
   const stats = {
     totalOrders: 124,

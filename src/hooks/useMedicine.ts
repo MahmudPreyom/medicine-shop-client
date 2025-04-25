@@ -2,6 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+type Medicine = {
+  id: number;
+  name: string;
+  category: string;
+  price: string;
+  image: string;
+};
+
 const allMedicines = Array.from({ length: 50 }).map((_, i) => ({
   id: i + 1,
   name: `Medicine ${i + 1}`,
@@ -11,7 +19,7 @@ const allMedicines = Array.from({ length: 50 }).map((_, i) => ({
 }));
 
 const useMedicines = (filters: { category: string; sort: string }) => {
-  const [medicines, setMedicines] = useState<any[]>([]);
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 

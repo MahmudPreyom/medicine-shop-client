@@ -1,4 +1,3 @@
-import BrandingSection from "@/components/modules/home/BrandingSection";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 

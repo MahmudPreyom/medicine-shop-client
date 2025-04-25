@@ -1,9 +1,19 @@
 'use client';
 
+interface Order {
+  _id: string;
+  createdAt: string;
+  product: {
+    name: string;
+  };
+  totalPrice: number;
+  status: string;
+}
+
 import { useEffect, useState } from 'react';
 
 const OrdersPage = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {

@@ -12,9 +12,9 @@ const ContactPage = () => {
       
       {/* Header */}
       <section className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-primary">Let's Talk 👋</h1>
+        <h1 className="text-4xl font-bold text-primary">Lets Talk 👋</h1>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Have questions, feedback, or just want to say hi? We're always here to help you stay healthy and informed.
+          Have questions, feedback, or just want to say hi? We&rsquo;re always here to help you stay healthy and informed.
         </p>
       </section>
 

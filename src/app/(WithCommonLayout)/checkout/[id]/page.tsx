@@ -1,13 +1,15 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { removeFromCart } from '@/redux/featurs/cartSlice';
+import { useParams } from 'next/navigation';
 
 const CheckoutPage = () => {
-    const [prescriptionRequired, setPrescriptionRequired] = useState(true);
+    const [prescriptionRequired] = useState(true);
     const [selectedPayment, setSelectedPayment] = useState('surjopay');
     const [prescriptionImage, setPrescriptionImage] = useState('');
 
@@ -16,8 +18,8 @@ const CheckoutPage = () => {
 
     const cartItems = useSelector((state: RootState) => state.cart.items);
 
-    const searchParams = useSearchParams();
-    const productId = searchParams.get('id');
+    const params = useParams();
+    const productId = params.id;
     const selectedItem = cartItems.find(item => item._id === productId);
 
     const isPrescriptionRequiredAndMissing = cartItems.some(item => item.prescriptionRequired) && !prescriptionImage;

@@ -1,8 +1,6 @@
 "use client";
 
 import { Medicine } from "@/types";
-import Image from "next/image";
-import Link from "next/link";
 import MedicineCard from "../shop/MedicineCard";
 
 const FeaturedMedicines = ({ medicine }: { medicine: Medicine[] }) => {

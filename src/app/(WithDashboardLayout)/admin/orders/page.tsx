@@ -69,20 +69,18 @@ const AdminOrdersPage = () => {
       });
 
       const result = await res.json();
-      console.log(result)
       if (result.success) {
         toast.success('Order deleted successfully');
         setOrders((prevOrders) => prevOrders.filter((order) => order._id !== _id));
       } else {
         toast.error('Failed to delete order');
       }
-    } catch (err) {
+    } catch {
       toast.error('Error deleting order');
     }
   };
 
   const handleEdit = async (order: Order, click: string) => {
-    console.log(order._id, click)
     let updateStatus: string = '';
 
     if (click == "Cancelled") {
@@ -122,14 +120,13 @@ const AdminOrdersPage = () => {
       });
 
       const result = await res.json();
-      console.log(result);
       if (result.success) {
         toast.success('Order updated successfully');
         fetchOrders();
       } else {
         toast.error('Failed to update order');
       }
-    } catch (err) {
+    } catch {
       toast.error('Error updating order');
     }
   }

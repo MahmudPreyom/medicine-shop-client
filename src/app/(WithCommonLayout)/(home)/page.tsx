@@ -1,5 +1,4 @@
 
-// import SearchBar from "@/components/modules/home/SearchBar";
 
 import BrandingSection from "@/components/modules/home/BrandingSection";
 import CustomerReviews from "@/components/modules/home/customerReview";

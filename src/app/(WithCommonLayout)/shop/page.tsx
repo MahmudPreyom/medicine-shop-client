@@ -1,7 +1,7 @@
 'use client';
 
 import MedicineCard from '@/components/modules/shop/MedicineCard';
-import useMedicines from '@/hooks/useMedicine';
+import Spinner from '@/components/ui/Spinner';
 import { useEffect, useState } from 'react';
 
 type Medicine = {
@@ -41,6 +41,10 @@ const ShopPage = () => {
 
     fetchData();
   }, []);
+
+  if (loading) {
+    <Spinner />
+  }
 
 
 

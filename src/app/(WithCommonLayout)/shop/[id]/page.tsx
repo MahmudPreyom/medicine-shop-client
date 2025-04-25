@@ -9,7 +9,20 @@ import Image from 'next/image';
 const MedicineDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [medicine, setMedicine] = useState<any>(null);
+  interface Medicine {
+    _id: string;
+    name: string;
+    description: string;
+    category: string;
+    price: number;
+    stock: number;
+    prescriptionRequired: boolean;
+    manufacturer: string;
+    expiryDate: string;
+    image: string;
+  }
+
+  const [medicine, setMedicine] = useState<Medicine | null>(null);
   const router = useRouter();
 
   useEffect(() => {

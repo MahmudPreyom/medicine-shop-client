@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 const MedicineCard = ({ medicine }: { medicine: Medicine }) => {
-  console.log(medicine);
   return (
     <div className="border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition">
       <div className="w-full h-40 relative mb-4">

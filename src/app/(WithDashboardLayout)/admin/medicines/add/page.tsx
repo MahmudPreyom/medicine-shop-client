@@ -5,12 +5,27 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 
+type MedicineFormData = {
+  name: string;
+  company: string;
+  image: string;
+  price: number;
+  type: string;
+  quantity: number;
+  expiryDate: string;
+  manufacturerDetails: string;
+  symptoms: string[];
+  description: string;
+  inStock: boolean;
+  prescriptionRequired: boolean;
+};
+
 const AddMedicinePage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<MedicineFormData>();
 
-  const handleSubmitForm = async (formData: any) => {
+  const handleSubmitForm = async (formData: MedicineFormData) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('accessToken');
@@ -31,7 +46,7 @@ const AddMedicinePage = () => {
       } else {
         toast.error(result.message || 'Failed to add medicine');
       }
-    } catch (error) {
+    } catch {
       toast.error('Error adding medicine');
     } finally {
       setLoading(false);
@@ -43,11 +58,11 @@ const AddMedicinePage = () => {
       <h1 className="text-2xl font-bold mb-6 text-gray-800">Add New Medicine</h1>
       <form
         onSubmit={handleSubmit((data) => {
-          const payload = {
+          const payload: MedicineFormData = {
             ...data,
-            price: parseFloat(data.price),
-            quantity: parseInt(data.quantity, 10),
-            symptoms: data.symptoms.split(',').map((s: string) => s.trim()),
+            price: parseFloat(data.price as unknown as string),
+            quantity: parseInt(data.quantity as unknown as string, 10),
+            symptoms: data.symptoms,
           };
           handleSubmitForm(payload);
           reset();
