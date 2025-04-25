@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏥 MediMart — Online Medicine Shop (Client)
 
-## Getting Started
+[Live Site 🌐](https://medicine-shop-client.vercel.app)
 
-First, run the development server:
+MediMart is a modern and user-friendly online pharmacy platform where users can browse, order, and manage medicines with ease. Built with **Next.js 13+**, **Tailwind CSS**, and **Redux**, this frontend app integrates with a secure backend API and supports admin control, payment integration, and dynamic user experiences.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🔧 Tech Stack
+
+- **Framework**: [Next.js 13+ (App Router)](https://nextjs.org/)
+- **State Management**: Redux Toolkit
+- **Styling**: Tailwind CSS
+- **Forms**: React Hook Form
+- **Authentication**: JWT (via API), stored in cookies/localStorage
+- **Payment Integration**: SurjoPay (sandbox ready)
+- **Deployment**: Vercel
+
+---
+
+## ✨ Features
+
+### 👥 User Functionality
+
+- ✅ Registration & Login
+- ✅ View medicines by category
+- ✅ Add to cart (with Redux)
+- ✅ Checkout with prescription upload
+- ✅ SurjoPay integration for payment
+- ✅ View order history
+- ✅ Profile update
+
+### 🔒 Admin Dashboard
+
+- 🔧 Add / Edit / Delete Medicines
+- 🛆 Manage Orders (update status, cancel)
+- 👤 Manage Users (activate / deactivate)
+- 📊 Dashboard Sidebar (Responsive)
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                      # App directory (Next.js App Router)
+│   ├── (WithCommonLayout)/
+│   ├── (WithDashboardLayout)/admin/
+│   └── not-found.tsx         # Custom 404 page
+├── components/               # Reusable components
+├── redux/                    # Redux setup (store, slices, hooks)
+├── hooks/                    # Custom hooks (e.g., useUser)
+├── lib/                      # Utility functions
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file for local development:
 
-## Learn More
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-api.com
+```
 
-To learn more about Next.js, take a look at the following resources:
+> 🔐 Make sure to add this in [Vercel Project Settings → Environment Variables](https://vercel.com/docs/projects/environment-variables) for production too.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Deployment
 
-## Deploy on Vercel
+This project is **deployed on Vercel**:
+- CI/CD is enabled via GitHub.
+- Automatic deployment on `main` branch push.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛡️ Security Considerations
+
+- JWT stored in cookies for secure middleware protection
+- Route guards to protect `/admin` routes
+- CORS configured for backend access
+
+---
+
+## 🧰 Future Enhancements
+
+- 🔐 Add refresh token logic
+- 📱 PWA support for mobile devices
+- 🛆 Inventory auto-sync from backend
+- 📧 Email notifications
+
+---
+
+## 📸 Screenshots
+
+Coming soon...
+
+---
+
+## 👨‍💻 Author
+
+**Md Asif Shahariar**  
+Frontend Developer | React & Next.js Specialist  
+[Portfolio](#) | [LinkedIn](https://www.linkedin.com/) | [GitHub](https://github.com/)
+
+---
+
+> If you found this project useful, feel free to ⭐️ the repo and share it!
+
