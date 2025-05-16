@@ -27,7 +27,8 @@ const MedicineDetails = () => {
 
   useEffect(() => {
     const fetchMedicine = async () => {
-      const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`);
+      // const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`);
+      const res = await fetch(`https://medicine-shop-server-mvwf.vercel.app/api/medicine/${id}`);
       const data = await res.json();
       setMedicine(data.data);
     };

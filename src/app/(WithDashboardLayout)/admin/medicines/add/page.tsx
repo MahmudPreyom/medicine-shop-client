@@ -30,7 +30,8 @@ const AddMedicinePage = () => {
       setLoading(true);
       const token = localStorage.getItem('accessToken');
 
-      const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine', {
+      // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine', {
+      const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/medicine', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

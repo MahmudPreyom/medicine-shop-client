@@ -30,7 +30,8 @@ const EditMedicinePage = () => {
   useEffect(() => {
     const fetchMedicine = async () => {
       try {
-        const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`);
+        // const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`);
+        const res = await fetch(`https://medicine-shop-server-mvwf.vercel.app/api/medicine/${id}`);
         const { data } = await res.json();
         reset({
           name: data.name,
@@ -57,7 +58,8 @@ const EditMedicinePage = () => {
   const onSubmit = async (formData: MedicineFormData) => {
     try {
       const token = localStorage.getItem('accessToken');
-      const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`, {
+      // const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`, {
+      const res = await fetch(`https://medicine-shop-server-mvwf.vercel.app/api/medicine/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

@@ -27,7 +27,8 @@ const RegisterPage = () => {
 
 
     try {
-      const res = await fetch("https://medicine-shop-server-mu.vercel.app/api/auth/register", {
+      // const res = await fetch("https://medicine-shop-server-mu.vercel.app/api/auth/register", {
+      const res = await fetch("https://medicine-shop-server-mvwf.vercel.app/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

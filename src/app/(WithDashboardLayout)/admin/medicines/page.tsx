@@ -46,7 +46,8 @@ const AllMedicinesPage = () => {
 
   useEffect(() => {
     const fetchMedicines = async () => {
-      const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
+      // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
+      const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/medicine');
       const json = await res.json();
 
       const formatted = json.data.map((item: RawMedicine) => ({
@@ -86,7 +87,8 @@ const AllMedicinesPage = () => {
     // Performing delete actoins
     const token = localStorage.getItem('accessToken');
     try {
-      const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`, {
+      // const res = await fetch(`https://medicine-shop-server-mu.vercel.app/api/medicine/${id}`, {
+      const res = await fetch(`https://medicine-shop-server-mvwf.vercel.app/api/medicine/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

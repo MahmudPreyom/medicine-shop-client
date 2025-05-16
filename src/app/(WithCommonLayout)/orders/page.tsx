@@ -19,7 +19,8 @@ const OrdersPage = () => {
     const fetchOrders = async () => {
       const token = localStorage.getItem('accessToken');
       try {
-        const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/orders/order/my-orders', {
+        // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/orders/order/my-orders', {
+        const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/orders/order/my-orders', {
           headers: {
             Authorization: token || '',
           },

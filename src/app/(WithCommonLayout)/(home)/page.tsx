@@ -6,7 +6,8 @@ import FeaturedMedicines from "@/components/modules/home/FeaturedMedicine";
 import MedicineSearchBar from "@/components/modules/home/MedicineSearchBar";
 
 const HomePage = async () => {
-  const res = await fetch("https://medicine-shop-server-mu.vercel.app/api/medicine");
+  // const res = await fetch("https://medicine-shop-server-mu.vercel.app/api/medicine");
+  const res = await fetch("https://medicine-shop-server-mvwf.vercel.app/api/medicine");
   const result = await res.json();
   const medicine = result.data;
 

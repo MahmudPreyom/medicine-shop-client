@@ -29,7 +29,8 @@ const ShopPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
+        // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/medicine');
+        const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/medicine');
         const data = await res.json();
         setMedicines(data.data || []);
       } catch (err) {

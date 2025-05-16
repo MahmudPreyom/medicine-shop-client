@@ -14,7 +14,8 @@ const ProfilePage = () => {
         const fetchProfile = async () => {
             const token = localStorage.getItem('accessToken');
             try {
-                const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/user/get-my-data', {
+                // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/user/get-my-data', {
+                const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/user/get-my-data', {
                     headers: {
                         Authorization: token || '',
                     },

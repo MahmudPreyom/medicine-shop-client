@@ -43,7 +43,8 @@ const CheckoutPage = () => {
                 prescriptionImage,
             };
 
-            const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/orders', {
+            // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/orders', {
+            const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

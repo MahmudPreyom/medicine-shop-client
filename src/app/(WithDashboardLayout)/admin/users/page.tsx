@@ -18,7 +18,8 @@ const UserManagementPage = () => {
     const token = localStorage.getItem('accessToken');
     const fetchUsers = async () => {
       try {
-        const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/user', {
+        // const res = await fetch('https://medicine-shop-server-mu.vercel.app/api/user', {
+        const res = await fetch('https://medicine-shop-server-mvwf.vercel.app/api/user', {
           headers: {
             Authorization: token || '',
           },
@@ -63,7 +64,8 @@ const UserManagementPage = () => {
                       onClick={async () => {
                         try {
                           const token = localStorage.getItem('accessToken');
-                          await fetch(`https://medicine-shop-server-mu.vercel.app/api/user/${user._id}/block`, {
+                          // await fetch(`https://medicine-shop-server-mu.vercel.app/api/user/${user._id}/block`, {
+                          await fetch(`https://medicine-shop-server-mvwf.vercel.app/api/user/${user._id}/block`, {
                             method: 'PATCH',
                             headers: {
                               Authorization: token || '',
